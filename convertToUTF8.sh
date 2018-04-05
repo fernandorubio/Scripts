@@ -20,11 +20,12 @@ do
 	FILE=$( echo $info | awk '{ print $3 }')
 		
 	if [ $TYPE == $TEX ]; then
-		if [ $CHAR != $UTF ] && [ $CHAR != $ASCII ]; then
-			$( iconv -f $CHAR -t $UTF $FILE -o $FILE )
-			echo "Convert $CHAR $TYPE $FILE"
-		fi
-	fi
+                if [ $CHAR != $UTF ] && [ $CHAR != $ASCII ] && [ $CHAR != $UNK ] ; then
+                        $( iconv -f $CHAR -t $UTF $FILE -o $FILE.new && mv -f $FILE.new $FILE )
+                        echo "Convert $CHAR $TYPE $FILE"
+                fi
+                $( dos2unix $FILE )
+        fi
 	
 done 
 
